@@ -50,7 +50,13 @@ const Byte* Reader::readSingleWord(int &len, bool &ascii) {
 			if(!isAlpha(b)) {
 				if(len == 1) {
 					rollBackByte = 0; //read next byte;
-					break;
+					if(b <= ' ') {
+						--len;
+						continue;
+					}
+					else { 
+						break;
+					}
 				}
 				else {
 					--len;
