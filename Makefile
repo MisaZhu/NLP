@@ -1,7 +1,7 @@
-LIBSRCS = Reader.cc 
+LIBSRCS = Reader.cc StdByteReader.cc
 
 all:
 	g++ -g -o test test.cc ${LIBSRCS}
 
-clear:
+clean:
 	rm -fr test *.o
