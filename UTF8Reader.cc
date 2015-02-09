@@ -50,7 +50,7 @@ const Byte* UTF8Reader::readSingleWord(int &len, bool &ascii) {
 			if(!isAlpha(b)) {
 				if(len == 1) {
 					rollBackByte = 0; //read next byte;
-					if(b <= ' ') {
+					if(b == ' ' || b == '\t') {
 						--len;
 						continue;
 					}
