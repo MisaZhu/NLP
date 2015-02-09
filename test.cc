@@ -1,10 +1,10 @@
 #include <iostream>
 
-#include "Reader.hh"
+#include "UTF8Reader.hh"
 #include "StdByteReader.hh"
 
 int main(int argc, char** argv) {
-  Reader reader;
+  UTF8Reader reader;
 	StdByteReader byteReader;
 	int len;
 	bool ascii;
