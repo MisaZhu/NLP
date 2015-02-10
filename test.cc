@@ -119,12 +119,6 @@ void training() {
 					if(count > max)
 						max = count;
 				}
-				
-				/*if(count == 1000) {
-					std::cout << "[" << wordPair << "] ";
-					std::cout.flush();
-				}
-				*/
 			}
 		}
 	}
@@ -175,6 +169,7 @@ void split() {
 			if(sw[0] == '\n') {
 				word[0] = 0;
 				wordPair[0] = 0;
+				std::cout << "\n";
 			}
 			else {
 				std::cout << "[" << sw << "] ";
@@ -182,7 +177,7 @@ void split() {
 		}
 		else {
 			unsigned long count = getWordCount(db, sw, 3);
-			std::cout << "[" << sw << ":" << count << "] ";
+			std::cout << "[" << sw << ":" << (count * 1.0) / wpMax << "] ";
 
 			if(word[0] == 0) {
 				memcpy(word, sw, 3);
@@ -193,7 +188,7 @@ void split() {
 				memcpy(wordPair+3, sw, 3);
 
 				count = getWordCount(db, wordPair, 6);
-				std::cout << "[" << wordPair << ":" << (count * 1.0 / wpMax) << "] ";
+				std::cout << "[" << wordPair << ":" << (count * 10.0 / wpMax) << "] ";
 			}
 		}
 	}

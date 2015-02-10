@@ -1,7 +1,9 @@
-LIBSRCS = Reader.cc StdByteReader.cc UTF8Reader.cc
+SRCS = test.cc unqlite/unqlite.c Reader.cc UTF8Reader.cc StreamByteReader.cc
+
+CFLAGS = -I./unqlite
 
 all:
-	g++ -g -o test test.cc ${LIBSRCS}
+	g++ -g -o test ${CFLAGS} ${SRCS}
 
 clean:
 	rm -fr test *.o
