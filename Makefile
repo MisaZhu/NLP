@@ -1,6 +1,6 @@
-SRCS = test.cc unqlite/unqlite.c Reader.cc UTF8Reader.cc StreamByteReader.cc
+SRCS = test.cc unqlite/unqlite.c reader/Reader.cc reader/UTF8Reader.cc reader/StreamByteReader.cc
 
-CFLAGS = -I./unqlite
+CFLAGS = -I./unqlite -I./reader
 
 all:
 	g++ -g -o test ${CFLAGS} ${SRCS}
