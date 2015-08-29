@@ -1,5 +1,5 @@
 READER = ../../reader/Reader.cc ../../reader/UTF8Reader.cc ../../reader/StreamByteReader.cc
-UNQLITE = ../../unqlite/unqlite.c 
+;UNQLITE = ../../unqlite/unqlite.c 
 SRCS = test.cc ${UNQLITE} ${READER}
 
 CFLAGS = -I../../unqlite -I../../utils -I../../reader
