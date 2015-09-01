@@ -5,10 +5,10 @@ bool Purpose::ready() {
 	return true;
 }
 
-bool Purpose::checkInput(const Input& input) {
+bool Purpose::checkInput(Input* input) {
 	return false;
 }
 
-Purpose* Purpose::newPurpose(const Input& input) {
+Purpose* Purpose::newPurpose(Input* input) {
 	return NULL;
 }

@@ -2,6 +2,10 @@
 
 using namespace std;
 
+void NLP::setInput(Input* input) {
+	this->input = input;
+}
+
 void NLP::terminate() {
 	terminated = true;
 }
@@ -13,7 +17,10 @@ bool NLP::isTerminated() {
 void NLP::execute() {
 }
 
-Purpose* NLP::purposeChanged(const Input & input) {
+Purpose* NLP::purposeChanged() {
+	if(input == NULL)
+		return NULL;
+
 	if(currentPurpose != NULL && currentPurpose->checkInput(input)) {
 		return currentPurpose;
 	}
@@ -22,12 +29,14 @@ Purpose* NLP::purposeChanged(const Input & input) {
 }
 
 void NLP::run() {
+	if(input == NULL)
+		return;
+
 	while(!isTerminated()) {
-		Input input;
-		if(!input.read())
+		if(!input->read())
 			continue;
 
-		Purpose *purpose = purposeChanged(input);
+		Purpose *purpose = purposeChanged();
 
 		if(purpose != NULL && purpose != currentPurpose) {
 			purposeStack.push(purpose);

@@ -8,7 +8,11 @@ using namespace std;
 
 
 class NLP {
+
 	bool terminated;
+
+	Input* input;
+
 	Purpose* currentPurpose;
 
 	stack<Purpose*> purposeStack;
@@ -19,7 +23,7 @@ class NLP {
 
 	void terminate();
 
-	Purpose* purposeChanged(const Input& input);
+	Purpose* purposeChanged();
 
 	bool ready();
 
@@ -27,12 +31,16 @@ public:
 
 	NLP() {
 		terminated = false;
+		input = NULL;
 		currentPurpose = NULL;
 	}
 
 	bool isTerminated();
 
 	void run();
+
+	void setInput(Input* input); 
+
 };
 
 

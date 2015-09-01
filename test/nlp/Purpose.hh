@@ -4,16 +4,9 @@
 #include <string>
 #include <vector>
 
+#include "Input.hh"
+
 using namespace std;
-
-class Input {
-	string content;
-
-public:
-	bool read() {
-		return true;
-	}
-};
 
 class PurposeInput {
 	string type;
@@ -25,11 +18,11 @@ class Purpose {
 	vector <PurposeInput> inputItems; // expected inputs
 	
 public:
-	bool checkInput(const Input& input);
+	bool checkInput(Input* input);
 
 	bool ready();
 
-	static Purpose *newPurpose(const Input& input);
+	static Purpose *newPurpose(Input* input);
 };
 
 #endif

@@ -1,6 +1,6 @@
 READER = ../../reader/Reader.cc ../../reader/UTF8Reader.cc ../../reader/StreamByteReader.cc
 ;UNQLITE = ../../unqlite/unqlite.c 
-SRCS = Purpose.cc NLP.cc test.cc ${UNQLITE} ${READER}
+SRCS = Input.cc Purpose.cc NLP.cc test.cc ${UNQLITE} ${READER}
 
 CFLAGS = -I../../unqlite -I../../utils -I../../reader
 TARGET = nlptest
