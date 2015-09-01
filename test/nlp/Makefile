@@ -1,11 +1,12 @@
 READER = ../../reader/Reader.cc ../../reader/UTF8Reader.cc ../../reader/StreamByteReader.cc
 ;UNQLITE = ../../unqlite/unqlite.c 
-SRCS = test.cc ${UNQLITE} ${READER}
+SRCS = Purpose.cc NLP.cc test.cc ${UNQLITE} ${READER}
 
 CFLAGS = -I../../unqlite -I../../utils -I../../reader
+TARGET = nlptest
 
 all:
-	g++ -g -o test ${CFLAGS} ${SRCS}
+	g++ -g -o ${TARGET} ${CFLAGS} ${SRCS}
 
 clean:
-	rm -fr test *.o
+	rm -fr ${TARGET} *.o *.dSYM
