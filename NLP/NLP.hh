@@ -3,6 +3,7 @@
 
 #include <stack>
 #include "Purpose.hh"
+#include "PurposeCreator.hh"
 
 using namespace std;
 
@@ -14,6 +15,7 @@ class NLP {
 	Input* input;
 
 	Purpose* currentPurpose;
+	PurposeCreator* purposeCreator;
 
 	stack<Purpose*> purposeStack;
 
@@ -33,6 +35,7 @@ public:
 		terminated = false;
 		input = NULL;
 		currentPurpose = NULL;
+		purposeCreator = NULL;
 	}
 
 	bool isTerminated();
@@ -40,6 +43,10 @@ public:
 	void run();
 
 	void setInput(Input* input); 
+
+	void setPurposeCreator(PurposeCreator* purposeCreator); 
+
+	stack<Purpose*>* getPurposeStack();
 
 };
 

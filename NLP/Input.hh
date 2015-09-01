@@ -6,6 +6,8 @@
 using namespace std;
 
 class Input {
+
+protected:
 	string content;
 
 public:

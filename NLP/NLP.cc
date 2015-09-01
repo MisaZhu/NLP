@@ -2,6 +2,14 @@
 
 using namespace std;
 
+void NLP::setPurposeCreator(PurposeCreator* pc) {
+	purposeCreator = pc;
+}
+
+stack<Purpose*>* NLP::getPurposeStack() {
+	return &purposeStack;
+}
+
 void NLP::setInput(Input* input) {
 	this->input = input;
 }
@@ -25,11 +33,14 @@ Purpose* NLP::purposeChanged() {
 		return currentPurpose;
 	}
 
-	return Purpose::newPurpose(input);
+	if(purposeCreator != NULL)
+		return purposeCreator->newPurpose(this, input);
+
+	return NULL;
 }
 
 void NLP::run() {
-	if(input == NULL)
+	if (purposeCreator == NULL || input == NULL)
 		return;
 
 	while(!isTerminated()) {
@@ -44,10 +55,14 @@ void NLP::run() {
 		}
 
 		if(currentPurpose != NULL && currentPurpose->ready()) {
-			execute();
-			currentPurpose = purposeStack.top();
-			if(currentPurpose != NULL)
-				purposeStack.pop();
+			currentPurpose->execute();
+			purposeStack.pop();
+
+			delete currentPurpose;
+			currentPurpose = NULL;
+
+			if(purposeStack.size() > 0)
+				currentPurpose = purposeStack.top();
 		}
 	}
 }
