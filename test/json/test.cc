@@ -15,23 +15,20 @@ int main(int argc, char** argv) {
   UTF8Reader reader;
 	StreamByteReader byteReader;
 
-
-  std::filebuf fb;
-	fb.open ("conf.json",std::ios::in);
-	std::istream is(&fb);
-
-	byteReader.setInputStream(&is);
+	byteReader.setInputStream((std::istream*)&std::cin);
 	reader.setByteReader((ByteReader*) &byteReader);
 
 
-	while(true) {
-		is.seekg(0);
-		TinyJSON json;
-		json.setReader(&reader);
+	TinyJSON json;
+	json.setReader(&reader);
 
-		JSONElm *elm = json.parse();
-		delete elm;
-	}
+	JSONElm *elm = json.parse();
+
+	string s;
+	TinyJSON::dump(*elm, s);
+	std::cout << s << "\n";
+
+	delete elm;
 
 	return 0;
 }

@@ -22,6 +22,8 @@ public:
 	}
 
 	JSONElm* parse();
+
+	static bool dump(JSONElm& elm, string & ret);
 };
 
 #endif

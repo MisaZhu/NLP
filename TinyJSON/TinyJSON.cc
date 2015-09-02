@@ -1,4 +1,6 @@
 #include "TinyJSON.hh"
+#include <vector>
+#include <stdio.h>
 
 using namespace std;
 
@@ -47,16 +49,13 @@ bool TinyJSON::readElm(JSONElm& elm, Byte state) {
 			e->name = name;
 
 			if(sw[0] == '{') {
-				if(e->object == NULL) {
-					e->object = new JSONElm();
-				}
-
-				if(!readElm(*e->object, NAME)) {
+				e->type = JSONElm::OBJ;
+				if(!readElm(*e, NAME)) {
 					delete e;
 					return false;
 				}
-				e->type = JSONElm::OBJ;
-				elm.child.insert(map < string, JSONElm* >::value_type(name, e));
+				//elm.object = e;
+				elm.children.insert(map < string, JSONElm* >::value_type(name, e));
 			}
 			else if(sw[0] == '"') {
 				sw = reader->readTill(len, '"');
@@ -68,7 +67,7 @@ bool TinyJSON::readElm(JSONElm& elm, Byte state) {
 				}
 
 				e->type = JSONElm::TEXT;
-				elm.child.insert(map < string, JSONElm* >::value_type(name, e));
+				elm.children.insert(map < string, JSONElm* >::value_type(name, e));
 			}
 			else if(sw[0] == '[') {
 					while(true) {
@@ -95,7 +94,7 @@ bool TinyJSON::readElm(JSONElm& elm, Byte state) {
 					}
 				}
 				e->type = JSONElm::ARRAY;
-				elm.child.insert(map < string, JSONElm* >::value_type(name, e));
+				elm.children.insert(map < string, JSONElm* >::value_type(name, e));
 			}
 			else {
 				delete e;
@@ -136,5 +135,65 @@ bool TinyJSON::readElm(JSONElm& elm, Byte state) {
 		}
 	}
 
+	return true;
+}
+
+bool TinyJSON::dump(JSONElm& elm, string& ret) {
+	ret = "";
+
+	if(elm.name.length() > 0)
+		ret = ret + "\"" + elm.name + "\":";
+
+
+	if(elm.type == JSONElm::OBJ)
+		ret += "{";
+
+	if(elm.type == JSONElm::TEXT) {
+		ret = ret + "\"" + elm.text + "\"";
+	}
+	else if(elm.type == JSONElm::OBJ) {
+		string s;
+
+		if(elm.object != NULL) {
+			if(!dump(*elm.object, s))
+				return false;
+			else {
+				ret += s;
+			}
+		}
+	}
+	else if(elm.type == JSONElm::ARRAY) {
+		ret += "[";
+
+		for(std::vector<JSONElm*>::iterator it = elm.array.begin(); it != elm.array.end(); ++it) {
+			JSONElm* e = *it;
+			if(e != NULL) {
+				string s = "";
+				if(!dump(*e, s))
+					return false;
+
+				if(it != elm.array.begin())
+					ret += ",";
+				ret += s;
+			}
+		}
+		ret += "]";
+	}
+
+	for(std::map<string, JSONElm*>::iterator c = elm.children.begin(); c != elm.children.end(); ++c) {
+		JSONElm* e = c->second;
+		if(e != NULL) {
+			string s = "";
+			if(!dump(*e, s))
+				return false;
+
+			if(c != elm.children.begin())
+				ret += ",";
+			ret += s;
+		}
+	}
+
+	if(elm.type == JSONElm::OBJ)
+		ret += "}";
 	return true;
 }

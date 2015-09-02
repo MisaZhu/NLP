@@ -8,7 +8,7 @@ JSONElm::~JSONElm() {
 			delete e;
 	}
 
-	for(std::map<string, JSONElm*>::iterator it = child.begin(); it != child.end(); ++it) {
+	for(std::map<string, JSONElm*>::iterator it = children.begin(); it != children.end(); ++it) {
 		JSONElm* e = it->second;
 		if(e != NULL)
 			delete e;

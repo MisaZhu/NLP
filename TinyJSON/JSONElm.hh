@@ -17,17 +17,20 @@ public:
 	Byte type;
 
 	string name;
-	string text;
 
+	string text;
 	JSONElm *object;
 	vector<JSONElm*> array;
-	map<std::string, JSONElm*> child;
+
+	map<std::string, JSONElm*> children;
 
 	inline JSONElm() {
+		type = OBJ;
 		object = NULL;
 	}
 
 	~JSONElm();
+
 };
 
 
