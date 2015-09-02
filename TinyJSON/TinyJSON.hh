@@ -1,7 +1,7 @@
 #ifndef TinyJSON_HH
 #define TinyJSON_HH
 
-#include "JSONElm.hh"
+#include "JSONEntry.hh"
 #include "Reader.hh"
 
 using namespace std;
@@ -14,16 +14,16 @@ class TinyJSON {
 
 	Byte state;
 
-	bool readElm(JSONElm& elm, Byte state = ELM);
+	bool readElm(JSONEntry& elm, Byte state = ELM);
 public:
 
 	void setReader(Reader* r) {
 		reader = r;
 	}
 
-	JSONElm* parse();
+	JSONEntry* parse();
 
-	static bool dump(JSONElm& elm, string & ret);
+	static bool dump(JSONEntry& elm, string & ret);
 };
 
 #endif

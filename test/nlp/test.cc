@@ -3,6 +3,7 @@
 #include "NLP.hh"
 #include "UTF8Reader.hh"
 #include "StreamByteReader.hh"
+#include "TinyJSON.hh"
 
 
 using namespace std;
@@ -107,12 +108,32 @@ public:
 };
 
 class PurposeC : public PurposeCreator {
+	JSONEntry* json;
 public:
 	Purpose* newPurpose(NLP* nlp, Input* input) {
 		string in = input->getType();
 		std::cout << "new purpose: " << in << "\n";
 		Purpose* ret = new PurposeTest(in); 
 		return ret;
+	}
+
+	bool loadConfig() {
+		UTF8Reader reader;
+		StreamByteReader byteReader;
+
+		byteReader.setInputStream((std::istream*)&std::cin);
+		reader.setByteReader((ByteReader*) &byteReader);
+
+		TinyJSON tj;
+		tj.setReader(&reader);
+
+		json = tj.parse();
+		if(json == NULL)
+			return false;
+
+		string s;
+		TinyJSON::dump(*json, s);
+		return true;
 	}
 };
 
@@ -121,9 +142,11 @@ int main(int argc, char** argv) {
 	StdReader reader;
 	PurposeC pc;
 
-	nlp.setReader(&reader);
-	nlp.setPurposeCreator(&pc);
-	nlp.run();
+	if(pc.loadConfig()) {
+		nlp.setReader(&reader);
+		nlp.setPurposeCreator(&pc);
+		nlp.run();
+	}
 
 	return 0;
 }

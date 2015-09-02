@@ -8,7 +8,7 @@
 
 using namespace std;
 
-class JSONElm {
+class JSONEntry {
 public:
 	static const Byte OBJ = 0;
 	static const Byte ARRAY = 1;
@@ -19,17 +19,19 @@ public:
 	string name;
 
 	string text;
-	JSONElm *object;
-	vector<JSONElm*> array;
+	JSONEntry *object;
+	vector<JSONEntry*> array;
 
-	map<std::string, JSONElm*> children;
+	map<std::string, JSONEntry*> children;
 
-	inline JSONElm() {
+	inline JSONEntry() {
 		type = OBJ;
 		object = NULL;
 	}
 
-	~JSONElm();
+	~JSONEntry();
+
+	JSONEntry* getChild(const string& name);
 
 };
 

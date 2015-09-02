@@ -22,7 +22,7 @@ int main(int argc, char** argv) {
 	TinyJSON json;
 	json.setReader(&reader);
 
-	JSONElm *elm = json.parse();
+	JSONEntry *elm = json.parse();
 
 	string s;
 	TinyJSON::dump(*elm, s);
