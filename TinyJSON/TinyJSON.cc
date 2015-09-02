@@ -1,8 +1,8 @@
-#include "JSON.hh"
+#include "TinyJSON.hh"
 
 using namespace std;
 
-JSONElm* JSON::parse() {
+JSONElm* TinyJSON::parse() {
 	JSONElm* ret = new JSONElm();
 	if(ret == NULL)
 		return NULL;
@@ -14,7 +14,7 @@ JSONElm* JSON::parse() {
 	return NULL;
 }
 
-bool JSON::readElm(JSONElm& elm, Byte state) {
+bool TinyJSON::readElm(JSONElm& elm, Byte state) {
 	if(reader == NULL)
 		return false;
 

@@ -1,8 +1,8 @@
 READER = ../../reader/Reader.cc ../../reader/UTF8Reader.cc ../../reader/StreamByteReader.cc
-JSON = ../../json/*.cc
+JSON = ../../TinyJSON/*.cc
 SRCS = test.cc ${UNQLITE} ${READER} ${JSON}
 
-CFLAGS = -I../../json -I../../utils -I../../reader
+CFLAGS = -I../../TinyJSON -I../../utils -I../../reader
 TARGET = jsontest
 
 all:

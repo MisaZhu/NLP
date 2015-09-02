@@ -1,12 +1,12 @@
-#ifndef JSON_HH
-#define JSON_HH
+#ifndef TinyJSON_HH
+#define TinyJSON_HH
 
 #include "JSONElm.hh"
 #include "Reader.hh"
 
 using namespace std;
 
-class JSON {
+class TinyJSON {
 	static const Byte ELM = 0;
 	static const Byte NAME = 1;
 	static const Byte CONTENT = 3;

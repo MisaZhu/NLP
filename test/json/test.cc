@@ -6,7 +6,7 @@
 #include "UTF8Reader.hh"
 #include "StreamByteReader.hh"
 
-#include "JSON.hh"
+#include "TinyJSON.hh"
 
 using namespace std;
 
@@ -26,7 +26,7 @@ int main(int argc, char** argv) {
 
 	while(true) {
 		is.seekg(0);
-		JSON json;
+		TinyJSON json;
 		json.setReader(&reader);
 
 		JSONElm *elm = json.parse();
