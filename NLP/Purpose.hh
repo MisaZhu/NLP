@@ -19,7 +19,7 @@ public:
 
 	virtual bool ready() = 0;
 
-	virtual void execute() = 0;
+	virtual Input* execute() = 0;
 };
 
 #endif

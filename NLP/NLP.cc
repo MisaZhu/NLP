@@ -6,12 +6,13 @@ void NLP::setPurposeCreator(PurposeCreator* pc) {
 	purposeCreator = pc;
 }
 
-stack<Purpose*>* NLP::getPurposeStack() {
-	return &purposeStack;
+void NLP::setReader(NLPReader* r) {
+	reader = r;
 }
 
-void NLP::setInput(Input* input) {
-	this->input = input;
+
+stack<Purpose*>* NLP::getPurposeStack() {
+	return &purposeStack;
 }
 
 void NLP::terminate() {
@@ -22,14 +23,9 @@ bool NLP::isTerminated() {
 	return terminated;
 }
 
-void NLP::execute() {
-}
-
-Purpose* NLP::purposeChanged() {
-	if(input == NULL)
-		return NULL;
-
-	if(currentPurpose != NULL && currentPurpose->checkInput(input)) {
+Purpose* NLP::purposeChanged(Input* input) {
+	if(input == NULL ||
+			(currentPurpose != NULL && currentPurpose->checkInput(input))) {
 		return currentPurpose;
 	}
 
@@ -40,14 +36,23 @@ Purpose* NLP::purposeChanged() {
 }
 
 void NLP::run() {
-	if (purposeCreator == NULL || input == NULL)
+	if (reader == NULL || purposeCreator == NULL)
 		return;
 
-	while(!isTerminated()) {
-		if(!input->read())
-			continue;
+	Input* input = NULL;
 
-		Purpose *purpose = purposeChanged();
+	while(!isTerminated()) {
+		if(input == NULL) {
+			input = reader->read();
+
+			if(input == NULL)
+				continue;
+		}
+
+		Purpose *purpose = purposeChanged(input);
+
+		delete input;
+		input = NULL;
 
 		if(purpose != NULL && purpose != currentPurpose) {
 			purposeStack.push(purpose);
@@ -55,7 +60,7 @@ void NLP::run() {
 		}
 
 		if(currentPurpose != NULL && currentPurpose->ready()) {
-			currentPurpose->execute();
+			input = currentPurpose->execute();
 			purposeStack.pop();
 
 			delete currentPurpose;

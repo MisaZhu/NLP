@@ -4,11 +4,15 @@
 
 using namespace std;
 
-class StdInput : public Input {
+class StdReader : public NLPReader {
 public:
-	bool read() {
-		std::cin >> content;
-		return true;
+	Input* read() {
+		string r;
+		std::cin >> r;
+		if(r.length() == 0)
+			return NULL;
+
+		return new Input(r);
 	}
 };
 
@@ -48,8 +52,9 @@ public:
 		return false;
 	}	
 
-	void execute() {
+	Input* execute() {
 		std::cout << "execute: " << purpose << "\n";
+		return NULL;
 	}
 };
 
@@ -65,10 +70,10 @@ public:
 
 int main(int argc, char** argv) {
 	NLP nlp;
-	StdInput input;
+	StdReader reader;
 	PurposeC pc;
 
-	nlp.setInput(&input);
+	nlp.setReader(&reader);
 	nlp.setPurposeCreator(&pc);
 	nlp.run();
 

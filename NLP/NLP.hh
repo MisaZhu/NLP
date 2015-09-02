@@ -3,6 +3,8 @@
 
 #include <stack>
 #include "Purpose.hh"
+#include "Input.hh"
+#include "NLPReader.hh"
 #include "PurposeCreator.hh"
 
 using namespace std;
@@ -12,29 +14,22 @@ class NLP {
 
 	bool terminated;
 
-	Input* input;
-
 	Purpose* currentPurpose;
+	NLPReader* reader;
 	PurposeCreator* purposeCreator;
 
 	stack<Purpose*> purposeStack;
 
-	void updatePurpose();
-
-	void execute();
-
 	void terminate();
 
-	Purpose* purposeChanged();
-
-	bool ready();
+	Purpose* purposeChanged(Input* input);
 
 public:
 
 	NLP() {
 		terminated = false;
-		input = NULL;
 		currentPurpose = NULL;
+		reader = NULL;
 		purposeCreator = NULL;
 	}
 
@@ -42,9 +37,9 @@ public:
 
 	void run();
 
-	void setInput(Input* input); 
-
 	void setPurposeCreator(PurposeCreator* purposeCreator); 
+
+	void setReader(NLPReader* r); 
 
 	stack<Purpose*>* getPurposeStack();
 

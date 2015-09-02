@@ -6,14 +6,15 @@
 using namespace std;
 
 class Input {
-
 protected:
 	string content;
 
 public:
-	virtual bool read() = 0;
+	Input(const string &r);
 
 	const string& getContent();
+
+	void setContent(const string & r);
 };
 
 #endif

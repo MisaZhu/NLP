@@ -5,3 +5,10 @@ const string& Input::getContent() {
 }
 
 
+void Input::setContent(const string& r) {
+	content = r;
+}
+
+Input::Input(const string& r) {
+	setContent(r);
+}
