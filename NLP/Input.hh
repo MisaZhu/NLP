@@ -6,15 +6,16 @@
 using namespace std;
 
 class Input {
-protected:
-	string content;
+	string type;
 
 public:
-	Input(const string &r);
+	Input(const string &t);
 
-	const string& getContent();
+	Input();
 
-	void setContent(const string & r);
+	const string& getType();
+
+	void setType(const string & t);
 };
 
 #endif

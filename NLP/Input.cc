@@ -1,14 +1,18 @@
 #include "Input.hh"
 
-const string& Input::getContent() {
-	return content;
+const string& Input::getType() {
+	return type;
 }
 
 
-void Input::setContent(const string& r) {
-	content = r;
+void Input::setType(const string& t) {
+	type = t;
 }
 
-Input::Input(const string& r) {
-	setContent(r);
+Input::Input() {
+	type = "";
+}
+
+Input::Input(const string& t) {
+	setType(t);
 }

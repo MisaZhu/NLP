@@ -1,3 +1,5 @@
+#include <string.h>
+#include <fstream>
 #include "UTF8Reader.hh"
 
 #define isASCII(b)  ((b & 0x80) == 0)
@@ -5,6 +7,63 @@
 											((b>='A') && (b<='Z')) || \
 											((b>='0') && (b<='9')))
 
+static const int 	MAX_WORD_LEN = 10240;
+
+//read single byte
+const Byte UTF8Reader::read() {
+	Byte b;
+
+	if(rollBackByte == 0) {
+		b = byteReader->read(); 
+		if(b == '\\')
+			b = byteReader->read(); 
+	}
+	else {
+		b = rollBackByte;
+		rollBackByte = 0;
+	}
+
+	return b;
+}
+
+//Read till the stop byte
+const Byte* UTF8Reader::readTill(int &len, Byte stop) {
+	len = 0;
+
+	if(byteReader == null) {
+		ret[len] =  0;
+		return ret;
+	}	
+
+	while(len <= MAX_WORD_LEN) {
+		Byte b;
+		if((len+1) == bufSize) {
+			bufSize += WORD_STEP_LEN;
+			Byte* newBuf = new Byte[bufSize];
+			memcpy(newBuf, ret, len);
+			delete ret;
+			ret = newBuf;
+		}
+		
+		b = read();
+
+		if(b == 0)//end of input
+			break;
+
+		if(b == stop) {
+			rollBackByte = b;
+			break;
+		}
+		else
+			rollBackByte = 0;
+
+		ret[len]  = b;
+		++len;
+	}
+
+	ret[len] =  0;
+	return ret;
+}
 //Read single word with UTF-8 encode
 const Byte* UTF8Reader::readSingleWord(int &len, bool &ascii) {
 	int count = 0;
@@ -20,13 +79,15 @@ const Byte* UTF8Reader::readSingleWord(int &len, bool &ascii) {
 
 	while(len <= MAX_WORD_LEN) {
 		Byte b;
+		if((len+1) == bufSize) {
+			bufSize += WORD_STEP_LEN;
+			Byte* newBuf = new Byte[bufSize];
+			memcpy(newBuf, ret, len);
+			delete ret;
+			ret = newBuf;
+		}
 
-		if(rollBackByte == 0) {
-			b = byteReader->read(); 
-		}
-		else {
-			b = rollBackByte;
-		}
+		b = read();
 
 		if(b == 0)//end of input
 			break;
@@ -50,7 +111,7 @@ const Byte* UTF8Reader::readSingleWord(int &len, bool &ascii) {
 			if(!isAlpha(b)) {
 				if(len == 1) {
 					rollBackByte = 0; //read next byte;
-					if(b == ' ' || b == '\t') {
+					if(b == ' ' || b == '\t' || b == '\n' || b == '\r') {
 						--len;
 						continue;
 					}

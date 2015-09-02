@@ -55,19 +55,30 @@ void NLP::run() {
 		input = NULL;
 
 		if(purpose != NULL && purpose != currentPurpose) {
+			if(currentPurpose != NULL)
+				currentPurpose->suspend();
+
 			purposeStack.push(purpose);
 			currentPurpose = purpose;
 		}
 
-		if(currentPurpose != NULL && currentPurpose->ready()) {
-			input = currentPurpose->execute();
-			purposeStack.pop();
+		if(currentPurpose != NULL) {
+			if(currentPurpose->ready()) {
+				input = currentPurpose->execute();
+				purposeStack.pop();
 
-			delete currentPurpose;
-			currentPurpose = NULL;
+				delete currentPurpose;
+				currentPurpose = NULL;
 
-			if(purposeStack.size() > 0)
-				currentPurpose = purposeStack.top();
+				if(purposeStack.size() > 0)
+					currentPurpose = purposeStack.top();
+
+				if(currentPurpose != NULL)
+					currentPurpose->resume();
+			}
+			else {
+				currentPurpose->moreInput();
+			}
 		}
 	}
 }
