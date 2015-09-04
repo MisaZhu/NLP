@@ -32,7 +32,6 @@ public:
 	~JSONEntry();
 
 	JSONEntry* getChild(const string& name);
-
 };
 
 
