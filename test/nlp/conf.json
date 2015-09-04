@@ -1,7 +1,7 @@
 { 
 	"purposes": [{	
 		"play" : {
-			"domain", "music",
+			"domain": "music",
 			"keywords" : "play, music, song, listen",
 			"inputs" : {
 				"inputs": [

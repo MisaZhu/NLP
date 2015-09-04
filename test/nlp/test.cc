@@ -131,8 +131,6 @@ public:
 		if(json == NULL)
 			return false;
 
-		string s;
-		TinyJSON::dump(*json, s);
 		return true;
 	}
 };

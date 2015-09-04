@@ -26,6 +26,15 @@ const Byte UTF8Reader::read() {
 	return b;
 }
 
+
+//Read till the stop byte
+std::string UTF8Reader::readTill(Byte stop) {
+	std::string ret;
+	int len;
+	ret = (const char*)readTill(len, stop);
+	return ret;
+}
+
 //Read till the stop byte
 const Byte* UTF8Reader::readTill(int &len, Byte stop) {
 	len = 0;
@@ -64,6 +73,17 @@ const Byte* UTF8Reader::readTill(int &len, Byte stop) {
 	ret[len] =  0;
 	return ret;
 }
+
+//Read single word with UTF-8 encode
+std::string UTF8Reader::readSingleWord() {
+	std::string ret;
+	int len;
+	bool ascii;
+
+	ret = (const char*)readSingleWord(len, ascii);
+	return ret;
+}
+
 //Read single word with UTF-8 encode
 const Byte* UTF8Reader::readSingleWord(int &len, bool &ascii) {
 	int count = 0;

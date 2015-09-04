@@ -114,9 +114,9 @@ void Indexer::search(const vector<string>& keys, vector<IDFreq>& ret, bool isAnd
 			second = first;
 		} else {
 			if(isAnd) 
-				res = doAnd(first, second);
+				res = Indexer::doAnd(first, second);
 			else
-				res = doOr(first, second);
+				res = Indexer::doOr(first, second);
 			
 			delete first;
 			delete second;
@@ -125,7 +125,7 @@ void Indexer::search(const vector<string>& keys, vector<IDFreq>& ret, bool isAnd
 	}
 
 	if(second != NULL) {
-		sort(second, ret);
+		Indexer::sort(second, ret);
 		delete second;
 	}
 }

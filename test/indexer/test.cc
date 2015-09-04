@@ -14,8 +14,7 @@ int main(int argc, char** argv) {
 	indexer.insert("efg", 0);
 	indexer.insert("efg", 3);
 
-	indexer.insert("xxxx", 2);
-	indexer.insert("xxxx", 3);
+	indexer.insert("xxxx", 0);
 
 	vector<IDFreq> ret;
 	vector<string> keys;

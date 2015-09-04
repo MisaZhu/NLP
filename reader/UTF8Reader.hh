@@ -2,7 +2,7 @@
 #define UTF8Reader_hh
 
 #include "Reader.hh"
-
+#include <string>
 
 class UTF8Reader : public Reader {
 	Byte* ret;
@@ -29,6 +29,11 @@ public:
 	virtual const Byte* readSingleWord(int & len, bool &ascii);
 
 	virtual const Byte* readTill(int & len, Byte stop);
+
+	std::string readSingleWord();
+
+	std::string readTill(Byte stop);
+
 
 	virtual const Byte read();
 };

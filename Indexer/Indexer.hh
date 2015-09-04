@@ -26,17 +26,16 @@ class Indexer {
 
 	IndexerItem* search(const string& key);
 
-	IndexerItem* doAnd(const IndexerItem* item0, const IndexerItem* item1);
-
-	IndexerItem* doOr(const IndexerItem* item0, const IndexerItem* item1);
-
-	void sort(const IndexerItem* item, vector<IDFreq>& ret);
-
 public:
+	static IndexerItem* doAnd(const IndexerItem* item0, const IndexerItem* item1);
+
+	static IndexerItem* doOr(const IndexerItem* item0, const IndexerItem* item1);
+
+	static void sort(const IndexerItem* item, vector<IDFreq>& ret);
+
 	void insert(const string& key, size_t id);
 
 	void search(const vector<string>& keys, vector<IDFreq>& ret, bool isAnd = true);
-
 };
 
 
