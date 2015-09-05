@@ -31,7 +31,8 @@ Purpose* NLP::purposeChanged(Input* input) {
 
 	if(purposeCreator != NULL) {
 		Purpose *ret = purposeCreator->newPurpose(this, input);
-		ret->checkInput(input);
+		if(ret != NULL)
+			ret->checkInput(input);
 		return ret;
 	}
 
