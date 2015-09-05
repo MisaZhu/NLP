@@ -29,8 +29,11 @@ Purpose* NLP::purposeChanged(Input* input) {
 		return currentPurpose;
 	}
 
-	if(purposeCreator != NULL)
-		return purposeCreator->newPurpose(this, input);
+	if(purposeCreator != NULL) {
+		Purpose *ret = purposeCreator->newPurpose(this, input);
+		ret->checkInput(input);
+		return ret;
+	}
 
 	return NULL;
 }

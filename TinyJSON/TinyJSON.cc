@@ -29,7 +29,7 @@ bool TinyJSON::readElm(JSONEntry& elm, Byte state) {
 	elm.type = JSONEntry::OBJ;
 
 	while(true) {
-		sw = reader->readSingleWord(len, ascii);
+		sw = reader->readSingleWord(len, ascii, true);
 		if(len == 0)
 			break;
 
@@ -79,7 +79,7 @@ bool TinyJSON::readElm(JSONEntry& elm, Byte state) {
 					}
 					e->array.push_back(item);
 
-					sw = reader->readSingleWord(len, ascii);
+					sw = reader->readSingleWord(len, ascii, true);
 					if(len == 0) {
 						delete e;
 						return false;
@@ -101,7 +101,7 @@ bool TinyJSON::readElm(JSONEntry& elm, Byte state) {
 				return false;
 			}
 
-			sw = reader->readSingleWord(len, ascii);
+			sw = reader->readSingleWord(len, ascii, true);
 
 			if(len == 0) {
 				return false;
@@ -127,7 +127,7 @@ bool TinyJSON::readElm(JSONEntry& elm, Byte state) {
 
 			name = (const char*)sw;
 
-			sw = reader->readSingleWord(len, ascii);
+			sw = reader->readSingleWord(len, ascii, true);
 			if(len == 0 || sw[0] != ':') 
 				return false;
 

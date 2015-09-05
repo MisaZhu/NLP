@@ -1,10 +1,11 @@
-READER = ../../reader/Reader.cc ../../reader/UTF8Reader.cc ../../reader/StreamByteReader.cc
-NLP = ../../NLP/*.cc
-JSON = ../../TinyJSON/*.cc
-;UNQLITE = ../../unqlite/unqlite.c 
-SRCS = test.cc ${UNQLITE} ${READER} ${NLP} ${JSON}
+UTILS = ../../utils
+READER = ../../Reader
+INDEXER = ../../Indexer
+NLP = ../../NLP
+JSON = ../../TinyJSON
+SRCS = *.cc ${READER}/*.cc ${NLP}/*.cc ${JSON}/*.cc ${INDEXER}/*.cc ${UTILS}/*.cc
 
-CFLAGS = -I../../unqlite -I../../utils -I../../reader -I../../NLP -I../../TinyJSON
+CFLAGS = -I${READER} -I${NLP} -I${JSON} -I${INDEXER} -I${UTILS}
 TARGET = nlptest
 
 all:

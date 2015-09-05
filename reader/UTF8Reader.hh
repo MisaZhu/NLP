@@ -26,11 +26,11 @@ public:
 		}
 	}
 
-	virtual const Byte* readSingleWord(int & len, bool &ascii);
+	virtual const Byte* readSingleWord(int & len, bool &ascii, bool ignore = false);
 
 	virtual const Byte* readTill(int & len, Byte stop);
 
-	std::string readSingleWord();
+	std::string readSingleWord(bool ignore = false);
 
 	std::string readTill(Byte stop);
 

@@ -1,18 +1,35 @@
 { 
-	"purposes": [{	
-		"play" : {
-			"domain": "music",
-			"keywords" : "play, music, song, listen",
-			"inputs" : {
-				"inputs": [
-					{ "input": "singer", "ask": "Whoes song you want me to play?"},
-					{ "input": "name", "ask": "Can I have the song's name?"},
-					{ "input": "type", "ask": "What kind of song you want me to play?"}
-				],
-				"ordinal": "no"
-			},
-			"resume": "",
-			"suspend": ""
+	"purposes": [
+		{ "play": {	
+				"domain": "music",
+				"keywords" : "play music song listen",
+				"inputs" : {
+					"inputs": { 
+						 "singer": "Whoes song you want me to play?",
+						 "name": "Can I have the song's name?",
+						 "type": "What kind of song you want me to play?"
+					},
+					"ready": "singer & name |
+							type "
+				},
+				"resume": "Do you still wanna play music?",
+				"suspend": ""
+			}
+		},
+		
+		{ "none": {	
+				"domain": "none",
+				"keywords" : "none",
+				"inputs" : {
+					"inputs": { 
+						 "words": "Any word will be fine."
+					},
+					"ready": "*"
+				},
+				"resume": "",
+				"suspend": ""
+			}
 		}
-	}]
+
+	]
 }

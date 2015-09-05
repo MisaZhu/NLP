@@ -2,7 +2,7 @@
 #include <sstream>
 
 #include "UTF8Reader.hh"
-#include "StringReader.hh"
+#include "UTF8StringReader.hh"
 #include "StreamByteReader.hh"
 
 using namespace std;
@@ -18,9 +18,9 @@ int main(int argc, char** argv) {
 	reader.setByteReader((ByteReader*) &byteReader);
 	*/
 	
-//	StringReader reader("sdfjdsklfjdkslfjdsl? dsfdsfds");
+//	UTF8StringReader reader("sdfjdsklfjdkslfjdsl? dsfdsfds");
 while(true) {
-	StringReader reader;
+	UTF8StringReader reader;
 	reader.setString("sfsdfdsf?sdfdsfs");
 
 	string r = reader.readTill('?');

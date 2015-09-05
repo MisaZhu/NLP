@@ -6,16 +6,16 @@
 using namespace std;
 
 class Input {
-	string type;
+	string text;
 
 public:
 	Input(const string &t);
 
 	Input();
 
-	const string& getType();
+	const string& getText();
 
-	void setType(const string & t);
+	void setText(const string & t);
 };
 
 #endif

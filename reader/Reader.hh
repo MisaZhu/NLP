@@ -10,7 +10,7 @@ protected:
 public:
 	Reader();
 	void setByteReader(ByteReader* r);
-	virtual const Byte* readSingleWord(int & len, bool &ascii) = 0;
+	virtual const Byte* readSingleWord(int & len, bool &ascii, bool ignore = false) = 0;
 	virtual const Byte read() = 0;
 	virtual const Byte* readTill(int & len, Byte stop) = 0;
 };

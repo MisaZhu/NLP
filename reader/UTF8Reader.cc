@@ -75,17 +75,17 @@ const Byte* UTF8Reader::readTill(int &len, Byte stop) {
 }
 
 //Read single word with UTF-8 encode
-std::string UTF8Reader::readSingleWord() {
+std::string UTF8Reader::readSingleWord(bool ignore) {
 	std::string ret;
 	int len;
 	bool ascii;
 
-	ret = (const char*)readSingleWord(len, ascii);
+	ret = (const char*)readSingleWord(len, ascii, ignore);
 	return ret;
 }
 
 //Read single word with UTF-8 encode
-const Byte* UTF8Reader::readSingleWord(int &len, bool &ascii) {
+const Byte* UTF8Reader::readSingleWord(int &len, bool &ascii, bool ignore) {
 	int count = 0;
 	bool alpha = false;
 
@@ -131,7 +131,8 @@ const Byte* UTF8Reader::readSingleWord(int &len, bool &ascii) {
 			if(!isAlpha(b)) {
 				if(len == 1) {
 					rollBackByte = 0; //read next byte;
-					if(b == ' ' || b == '\t' || b == '\n' || b == '\r') {
+					if(b == ' ' || b == '\t' || 
+							(ignore && (b == '\r' || b == '\n'))) {
 						--len;
 						continue;
 					}
