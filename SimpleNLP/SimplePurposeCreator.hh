@@ -1,5 +1,5 @@
-#ifndef PURPOSEC_HH
-#define PURPOSEC_HH
+#ifndef SIMPLE_PURPOSEC_HH
+#define SIMPLE_PURPOSEC_HH
 
 #include <map>
 #include "NLP.hh"
@@ -34,7 +34,7 @@ public:
 	}
 };
 
-class PurposeC : public PurposeCreator {
+class SimplePurposeCreator : public PurposeCreator {
 	JSONEntry* json;
 	map<size_t, JSONEntry*> purposeMap;
 	Indexer keywordIndexer;

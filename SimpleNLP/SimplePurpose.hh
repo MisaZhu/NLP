@@ -1,5 +1,5 @@
-#ifndef MY_PURPOSE_HH
-#define MY_PURPOSE_HH
+#ifndef SIMPLE_PURPOSE_HH
+#define SIMPLE_PURPOSE_HH
 
 #include "NLP.hh"
 #include "TinyJSON.hh"
@@ -10,7 +10,7 @@ typedef struct {
 	string ask;
 } MyInput;
 
-class MyPurpose : public Purpose {
+class SimplePurpose : public Purpose {
 	JSONEntry* purposeJSON;
 	NLP* nlp;
 	map<string, MyInput> inputs;
@@ -26,7 +26,7 @@ class MyPurpose : public Purpose {
 
 public:
 
-	MyPurpose(NLP* n, JSONEntry* json) {
+	SimplePurpose(NLP* n, JSONEntry* json) {
 		purposeJSON = json;
 		nlp = n;
 	}

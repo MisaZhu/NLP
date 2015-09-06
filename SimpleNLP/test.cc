@@ -1,10 +1,10 @@
-#include "PurposeC.hh"
+#include "SimplePurposeCreator.hh"
 
 
 int main(int argc, char** argv) {
 	NLP nlp;
 	StdReader reader;
-	PurposeC pc;
+	SimplePurposeCreator pc;
 
 	if(pc.loadConfig("conf.json")) {
 		nlp.setReader(&reader);

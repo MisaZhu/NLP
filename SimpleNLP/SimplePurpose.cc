@@ -1,15 +1,15 @@
 #include <iostream>
-#include "MyPurpose.hh"
+#include "SimplePurpose.hh"
 #include "StringUtils.hh"
 
-void MyPurpose::talk(const string& text) {
+void SimplePurpose::talk(const string& text) {
 	if(text.length() == 0)
 		return;
 
 	std::cout << "Purpose[" << name << "]: " << text <<"\n";
 }
 
-void MyPurpose::suspend() {
+void SimplePurpose::suspend() {
   JSONEntry* j = purposeJSON->getChild("suspend");
 	if(j == NULL)
 		return;
@@ -17,7 +17,7 @@ void MyPurpose::suspend() {
 	talk(j->text);
 }
 	
-void MyPurpose::resume() {
+void SimplePurpose::resume() {
   JSONEntry* j = purposeJSON->getChild("resume");
 	if(j == NULL)
 		return;
@@ -25,7 +25,7 @@ void MyPurpose::resume() {
 	talk(j->text);
 }
 
-bool MyPurpose::fetchInput(const string& name, const string& input, string& value) {
+bool SimplePurpose::fetchInput(const string& name, const string& input, string& value) {
 	string::size_type pos = input.find(name + "(");
 
 	if(pos != string::npos) { //found $name(
@@ -34,20 +34,20 @@ bool MyPurpose::fetchInput(const string& name, const string& input, string& valu
 		if(pos != string::npos) { //found )
 			s = s.substr(0, pos);
 			value = s;
+			talk(name + " inputed with : " + value);
 			return true;
 		}
 	}
 	return false;
 }
 
-bool MyPurpose::checkInput(Input* input) {
+bool SimplePurpose::checkInput(Input* input) {
 	string in = input->getText();
 	
 	for(map<std::string, MyInput>::iterator it = inputs.begin(); it != inputs.end(); ++it) {
 		string name = it->first;
 		string value;
 		if(fetchInput(name, in, value)) {
-			talk(name + " inputed with : " + value);
 			it->second.value = value;
 			return true;
 		}
@@ -56,7 +56,7 @@ bool MyPurpose::checkInput(Input* input) {
 	return false;
 }
 
-void MyPurpose::moreInput() {
+void SimplePurpose::moreInput() {
 	map<std::string, MyInput>::iterator it;
 	if(tryInput.length() != 0) {
 		it = inputs.find(tryInput);
@@ -78,7 +78,7 @@ void MyPurpose::moreInput() {
 	}
 }
 
-bool MyPurpose::checkReady(const string& cond) {
+bool SimplePurpose::checkReady(const string& cond) {
 	if(cond == "*")
 		return true;
 
@@ -103,7 +103,7 @@ bool MyPurpose::checkReady(const string& cond) {
 	return true;
 }
 
-bool MyPurpose::ready() {
+bool SimplePurpose::ready() {
 	int num = readyCond.size();
 	for(int i=0; i<num; ++i) {
 		string cond = readyCond[i];
@@ -117,12 +117,12 @@ bool MyPurpose::ready() {
 	return false;
 }	
 
-Input* MyPurpose::execute() {
+Input* SimplePurpose::execute() {
 	talk("execute!");
 	return NULL;
 }
 
-bool MyPurpose::init() {
+bool SimplePurpose::init() {
 	name = purposeJSON->name;
 
 	JSONEntry* jInput = purposeJSON->getChild("inputs");

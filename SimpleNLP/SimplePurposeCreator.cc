@@ -1,11 +1,11 @@
-#include "PurposeC.hh"
-#include "MyPurpose.hh"
+#include "SimplePurposeCreator.hh"
+#include "SimplePurpose.hh"
 #include "StringUtils.hh"
 
 using namespace std;
 
 
-void PurposeC::buildKeywordIndex(size_t id, string keywords) {
+void SimplePurposeCreator::buildKeywordIndex(size_t id, string keywords) {
 	vector<string> keys;
 	StringUtils::split(keywords, keys);
 	int num = keys.size();
@@ -15,7 +15,7 @@ void PurposeC::buildKeywordIndex(size_t id, string keywords) {
 	}
 }
 
-bool PurposeC::buildIndex() {
+bool SimplePurposeCreator::buildIndex() {
 	size_t index = 0;
 	
 	JSONEntry* purposes = json->getChild("purposes");
@@ -44,8 +44,8 @@ bool PurposeC::buildIndex() {
 	return true;
 }
 
-Purpose* PurposeC::newPurpose(NLP* nlp, JSONEntry* purposeJson) {
-	MyPurpose* ret = new MyPurpose(nlp, purposeJson);	
+Purpose* SimplePurposeCreator::newPurpose(NLP* nlp, JSONEntry* purposeJson) {
+	SimplePurpose* ret = new SimplePurpose(nlp, purposeJson);	
 	if(!ret->init()) {
 		delete ret;
 		return NULL;
@@ -54,7 +54,7 @@ Purpose* PurposeC::newPurpose(NLP* nlp, JSONEntry* purposeJson) {
 	return ret;
 }
 
-JSONEntry* PurposeC::getPurposeJSON(size_t id) {
+JSONEntry* SimplePurposeCreator::getPurposeJSON(size_t id) {
 	map<size_t, JSONEntry*>::iterator it = purposeMap.find(id);
 	if(it == purposeMap.end())
 		return NULL;
@@ -62,7 +62,7 @@ JSONEntry* PurposeC::getPurposeJSON(size_t id) {
 	return it->second;
 }
 
-Purpose* PurposeC::newPurpose(NLP* nlp, Input* input) {
+Purpose* SimplePurposeCreator::newPurpose(NLP* nlp, Input* input) {
 	vector<IDFreq> pIDs;
 	vector<string> words;
 
@@ -80,7 +80,7 @@ Purpose* PurposeC::newPurpose(NLP* nlp, Input* input) {
 	return ret;
 }
 
-bool PurposeC::loadConfig(const string& fname) {
+bool SimplePurposeCreator::loadConfig(const string& fname) {
 	UTF8Reader reader;
 	StreamByteReader byteReader;
 	std::filebuf fb;
