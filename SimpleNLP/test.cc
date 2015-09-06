@@ -2,7 +2,7 @@
 
 
 int main(int argc, char** argv) {
-	NLP nlp;
+	PIENlp nlp;
 	StdReader reader;
 	SimplePurposeCreator pc;
 

@@ -1,5 +1,5 @@
-#ifndef NLP_HH
-#define NLP_HH
+#ifndef PIE_NLP_HH
+#define PIE_NLP_HH
 
 #include <stack>
 #include "Purpose.hh"
@@ -10,7 +10,7 @@
 using namespace std;
 
 
-class NLP {
+class PIENlp {
 
 	bool terminated;
 
@@ -26,7 +26,7 @@ class NLP {
 
 public:
 
-	NLP() {
+	PIENlp() {
 		terminated = false;
 		currentPurpose = NULL;
 		reader = NULL;

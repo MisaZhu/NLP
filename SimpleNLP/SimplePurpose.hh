@@ -1,7 +1,7 @@
 #ifndef SIMPLE_PURPOSE_HH
 #define SIMPLE_PURPOSE_HH
 
-#include "NLP.hh"
+#include "PIENlp.hh"
 #include "TinyJSON.hh"
 
 
@@ -12,7 +12,7 @@ typedef struct {
 
 class SimplePurpose : public Purpose {
 	JSONEntry* purposeJSON;
-	NLP* nlp;
+	PIENlp* nlp;
 	map<string, MyInput> inputs;
 	vector<string> readyCond;
 	string inputExpected;
@@ -25,10 +25,12 @@ class SimplePurpose : public Purpose {
 	void talk(const string& text);
 
 	bool inStack;
+	
+	void dumpInputs();
 
 public:
 
-	SimplePurpose(NLP* n, JSONEntry* json) {
+	SimplePurpose(PIENlp* n, JSONEntry* json) {
 		inStack = false;
 		purposeJSON = json;
 		nlp = n;

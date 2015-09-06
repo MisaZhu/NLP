@@ -13,6 +13,17 @@ void SimplePurpose::talk(const string& text) {
 	std::cout << "Purpose[" << name << "]: " << text <<"\n";
 }
 
+void SimplePurpose::dumpInputs() {
+	string s;
+	for(map<std::string, MyInput>::iterator it = inputs.begin(); it != inputs.end(); ++it) {
+		string name = it->first;
+		string value = it->second.value;
+
+		s = s + "\t" + name + ": [" + value + "]\n";
+	}
+	std::cout << "Purpose[" << name << "]: {\n" << s <<"}\n\n";
+}
+
 void SimplePurpose::suspend() {
 	inputExpected = "_suspend_";
 	moreInput();
@@ -32,7 +43,6 @@ bool SimplePurpose::fetchInput(const string& name, const string& input, string& 
 		if(pos != string::npos) { //found )
 			s = s.substr(0, pos);
 			value = s;
-			talk(name + " inputed with : " + value);
 			return true;
 		}
 	}
@@ -55,6 +65,7 @@ bool SimplePurpose::checkInput(Input* input) {
 
 	if(ret)
 		inputExpected = "";
+	dumpInputs();
 	return ret;
 }
 

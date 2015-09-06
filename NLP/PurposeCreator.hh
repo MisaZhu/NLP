@@ -4,11 +4,11 @@
 
 #include "Purpose.hh"
 
-class NLP;
+class PIENlp;
 
 class PurposeCreator {
 public :
-	virtual Purpose* newPurpose(NLP* nlp, Input* input) = 0;	
+	virtual Purpose* newPurpose(PIENlp* nlp, Input* input) = 0;	
 };
 
 

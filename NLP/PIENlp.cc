@@ -1,29 +1,29 @@
-#include "NLP.hh"
+#include "PIENlp.hh"
 
 using namespace std;
 
-void NLP::setPurposeCreator(PurposeCreator* pc) {
+void PIENlp::setPurposeCreator(PurposeCreator* pc) {
 	purposeCreator = pc;
 }
 
-void NLP::setReader(NLPReader* r) {
+void PIENlp::setReader(NLPReader* r) {
 	reader = r;
 }
 
 
-stack<Purpose*>* NLP::getPurposeStack() {
+stack<Purpose*>* PIENlp::getPurposeStack() {
 	return &purposeStack;
 }
 
-void NLP::terminate() {
+void PIENlp::terminate() {
 	terminated = true;
 }
 
-bool NLP::isTerminated() {
+bool PIENlp::isTerminated() {
 	return terminated;
 }
 
-Purpose* NLP::purposeChanged(Input* input) {
+Purpose* PIENlp::purposeChanged(Input* input) {
 	if(input == NULL ||
 			(currentPurpose != NULL && currentPurpose->checkInput(input))) {
 		return currentPurpose;
@@ -39,7 +39,7 @@ Purpose* NLP::purposeChanged(Input* input) {
 	return NULL;
 }
 
-void NLP::run() {
+void PIENlp::run() {
 	if (reader == NULL || purposeCreator == NULL)
 		return;
 

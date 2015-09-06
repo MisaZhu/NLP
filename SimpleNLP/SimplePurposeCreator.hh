@@ -2,7 +2,7 @@
 #define SIMPLE_PURPOSEC_HH
 
 #include <map>
-#include "NLP.hh"
+#include "PIENlp.hh"
 #include "UTF8Reader.hh"
 #include "UTF8StringReader.hh"
 #include "TinyJSON.hh"
@@ -43,12 +43,12 @@ class SimplePurposeCreator : public PurposeCreator {
 
 	bool buildIndex();
 
-	Purpose* newPurpose(NLP* nlp, JSONEntry* purposeJson);
+	Purpose* newPurpose(PIENlp* nlp, JSONEntry* purposeJson);
 
 	JSONEntry* getPurposeJSON(size_t id); 
 
 public:
-	Purpose* newPurpose(NLP* nlp, Input* input);
+	Purpose* newPurpose(PIENlp* nlp, Input* input);
 
 	bool loadConfig(const string& fname);
 };

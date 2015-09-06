@@ -51,7 +51,7 @@ bool SimplePurposeCreator::buildIndex() {
 	return true;
 }
 
-Purpose* SimplePurposeCreator::newPurpose(NLP* nlp, JSONEntry* purposeJson) {
+Purpose* SimplePurposeCreator::newPurpose(PIENlp* nlp, JSONEntry* purposeJson) {
 	SimplePurpose* ret = new SimplePurpose(nlp, purposeJson);	
 	if(!ret->init()) {
 		delete ret;
@@ -69,7 +69,7 @@ JSONEntry* SimplePurposeCreator::getPurposeJSON(size_t id) {
 	return it->second;
 }
 
-Purpose* SimplePurposeCreator::newPurpose(NLP* nlp, Input* input) {
+Purpose* SimplePurposeCreator::newPurpose(PIENlp* nlp, Input* input) {
 	vector<IDFreq> pIDs;
 	vector<string> words;
 
