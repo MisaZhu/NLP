@@ -1,6 +1,6 @@
 { 
 	"purposes": [
-		{ "play": {	
+		{ "music": {	
 				"domain": "music",
 				"keywords" : "play music song listen",
 				"inputs" : {
@@ -16,7 +16,24 @@
 				"suspend": ""
 			}
 		},
-		
+
+		{ "story": {	
+				"domain": "story",
+				"keywords" : "tell story listen",
+				"inputs" : {
+					"inputs": { 
+						 "author": "Whoes story you want me to tell?",
+						 "name": "Can I have the story's name?",
+						 "type": "What kind of story you want me to tell?"
+					},
+					"ready": "author & name |
+							type "
+				},
+				"resume": "Do you still want me to tell the story?",
+				"suspend": ""
+			}
+		},
+
 		{ "none": {	
 				"domain": "none",
 				"keywords" : "none",
