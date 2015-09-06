@@ -25,6 +25,8 @@ public:
 
 	virtual void resume() = 0;
 
+	virtual bool keepInStack() = 0;
+
 	virtual Input* execute() = 0;
 };
 

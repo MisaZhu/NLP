@@ -15,7 +15,7 @@ class SimplePurpose : public Purpose {
 	NLP* nlp;
 	map<string, MyInput> inputs;
 	vector<string> readyCond;
-	string tryInput;
+	string inputExpected;
 	string name;
 
 	bool fetchInput(const string& name, const string& input, string& value);
@@ -24,9 +24,12 @@ class SimplePurpose : public Purpose {
 
 	void talk(const string& text);
 
+	bool inStack;
+
 public:
 
 	SimplePurpose(NLP* n, JSONEntry* json) {
+		inStack = false;
 		purposeJSON = json;
 		nlp = n;
 	}
@@ -44,6 +47,8 @@ public:
 	Input* execute();
 
 	bool init();
+
+	bool keepInStack();
 };
 
 #endif

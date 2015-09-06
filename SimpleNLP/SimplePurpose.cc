@@ -2,6 +2,10 @@
 #include "SimplePurpose.hh"
 #include "StringUtils.hh"
 
+bool SimplePurpose::keepInStack() {
+	return inStack;
+}
+
 void SimplePurpose::talk(const string& text) {
 	if(text.length() == 0)
 		return;
@@ -10,19 +14,13 @@ void SimplePurpose::talk(const string& text) {
 }
 
 void SimplePurpose::suspend() {
-  JSONEntry* j = purposeJSON->getChild("suspend");
-	if(j == NULL)
-		return;
-	
-	talk(j->text);
+	inputExpected = "_suspend_";
+	moreInput();
 }
 	
 void SimplePurpose::resume() {
-  JSONEntry* j = purposeJSON->getChild("resume");
-	if(j == NULL)
-		return;
-	
-	talk(j->text);
+	inputExpected = "_resume_";
+	moreInput();
 }
 
 bool SimplePurpose::fetchInput(const string& name, const string& input, string& value) {
@@ -43,25 +41,28 @@ bool SimplePurpose::fetchInput(const string& name, const string& input, string& 
 
 bool SimplePurpose::checkInput(Input* input) {
 	string in = input->getText();
+	bool ret = false;
 	
 	for(map<std::string, MyInput>::iterator it = inputs.begin(); it != inputs.end(); ++it) {
 		string name = it->first;
 		string value;
+
 		if(fetchInput(name, in, value)) {
 			it->second.value = value;
-			return true;
+			ret = true;
 		}
 	}
 
-	return false;
+	if(ret)
+		inputExpected = "";
+	return ret;
 }
 
 void SimplePurpose::moreInput() {
 	map<std::string, MyInput>::iterator it;
-	if(tryInput.length() != 0) {
-		it = inputs.find(tryInput);
-		tryInput = "";
 
+	if(inputExpected.length() != 0) {
+		it = inputs.find(inputExpected);
 		if(it != inputs.end()) {
 			if(it->second.value.length() == 0) {
 				talk(it->second.ask);
@@ -93,8 +94,8 @@ bool SimplePurpose::checkReady(const string& cond) {
 				return false;
 			
 			if(it->second.value.length() == 0) {
-				if(tryInput.length() == 0)
-					tryInput = in;
+				if(inputExpected.length() == 0)
+					inputExpected = in;
 				return false;
 			}
 		}
@@ -125,29 +126,34 @@ Input* SimplePurpose::execute() {
 bool SimplePurpose::init() {
 	name = purposeJSON->name;
 
-	JSONEntry* jInput = purposeJSON->getChild("inputs");
-	if(jInput == NULL) 
-		return false;
+	JSONEntry* js = purposeJSON->getChild("inputs");
+	if(js != NULL) {
 
-	JSONEntry* j;
-	//loading the inputs requirement
-	j = jInput->getChild("inputs");
-	if(j != NULL) {
-		for(map<std::string, JSONEntry*>::iterator it = j->children.begin(); it != j->children.end(); ++it) {
-			MyInput in;
-			string name = it->first;
-			in.ask = it->second->text;
+		JSONEntry* j;
+		//loading the inputs requirement
+		j = js->getChild("inputs");
+		if(j != NULL) {
+			for(map<std::string, JSONEntry*>::iterator it = j->children.begin(); it != j->children.end(); ++it) {
+				MyInput in;
+				string name = it->first;
+				in.ask = it->second->text;
 
-			inputs.insert(map<string, MyInput>::value_type(name, in));
+				inputs.insert(map<string, MyInput>::value_type(name, in));
+			}
+		}
+		
+		//loading the ready need
+		j = js->getChild("ready");
+		if(j != NULL) {
+			string s = j->text;		
+			StringUtils::split(s, readyCond, '|', true);
 		}
 	}
-	
-	//loading the ready need
-	j = jInput->getChild("ready");
-	if(j != NULL) {
-		string s = j->text;		
-		StringUtils::split(s, readyCond, '|', true);
-	}
 
+	js = purposeJSON->getChild("stack");
+	if(js != NULL) {
+		if(js->text == "yes" || js->text == "true")
+			inStack = true;
+	}
 	return true;
 }

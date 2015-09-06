@@ -3,17 +3,18 @@
 		{ "music": {	
 				"domain": "music",
 				"keywords" : "play music song listen",
+				"stack": "true",
 				"inputs" : {
 					"inputs": { 
-						 "singer": "Whoes song you want me to play?",
-						 "name": "Can I have the song's name?",
-						 "type": "What kind of song you want me to play?"
+						"singer": "Whoes song you want me to play?",
+						"name": "Can I have the song's name?",
+						"type": "What kind of song you want me to play?",
+						"_resume_": "Do you still wanna play music?",
+						"_suspend_": "Are you sure you don't wanna listen music any more?"
 					},
 					"ready": "singer & name |
 							type "
-				},
-				"resume": "Do you still wanna play music?",
-				"suspend": ""
+				}
 			}
 		},
 
@@ -28,25 +29,29 @@
 					},
 					"ready": "author & name |
 							type "
-				},
-				"resume": "Do you still want me to tell the story?",
-				"suspend": ""
+				}
 			}
 		},
 
-		{ "none": {	
-				"domain": "none",
-				"keywords" : "none",
+		{ "hello": {	
+				"domain": "hello",
+				"keywords" : "hello",
 				"inputs" : {
 					"inputs": { 
-						 "words": "Any word will be fine."
+						 "hello": "hello"
 					},
+					"ready": "hello"
+				}
+			}
+		},
+
+		{ "default": {	
+				"domain": "default",
+				"keywords" : "*",
+				"inputs" : {
 					"ready": "*"
-				},
-				"resume": "",
-				"suspend": ""
+				}
 			}
 		}
-
 	]
 }

@@ -16,7 +16,8 @@ void SimplePurposeCreator::buildKeywordIndex(size_t id, string keywords) {
 }
 
 bool SimplePurposeCreator::buildIndex() {
-	size_t index = 0;
+	size_t index = 1; // 0 preserved for default purpose.
+	size_t pIndex;
 	
 	JSONEntry* purposes = json->getChild("purposes");
 
@@ -31,12 +32,18 @@ bool SimplePurposeCreator::buildIndex() {
 			if(pit != item->children.end()) {
 				JSONEntry* purpose = pit->second;
 				if(purpose != NULL) {
+					pIndex = index;
 					JSONEntry* keys = purpose->getChild("keywords");
 					if(keys != NULL) {
-						buildKeywordIndex(index, keys->text);
+						if(keys->text == "*")
+							pIndex = 0; //defauilt purpose.
+						else
+							buildKeywordIndex(index, keys->text);
 					}
-					purposeMap.insert(map<size_t, JSONEntry*>::value_type(index, purpose));
-					index++;
+
+					purposeMap.insert(map<size_t, JSONEntry*>::value_type(pIndex, purpose));
+					if(pIndex != 0)
+						index++;
 				}
 			}
 		}
@@ -69,10 +76,13 @@ Purpose* SimplePurposeCreator::newPurpose(NLP* nlp, Input* input) {
 	StringUtils::split(input->getText(), words);
 	
 	keywordIndexer.search(words, pIDs, false);
-	if(pIDs.size() == 0)
-		return NULL;
 
-	JSONEntry* purposeJson = getPurposeJSON(pIDs[0].id);
+	size_t id = 0; //default purpose.
+
+	if(pIDs.size() != 0)
+		id = pIDs[0].id;
+
+	JSONEntry* purposeJson = getPurposeJSON(id);
 	if(purposeJson == NULL)
 		return NULL;
 

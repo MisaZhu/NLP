@@ -59,8 +59,14 @@ void NLP::run() {
 		input = NULL;
 
 		if(purpose != NULL && purpose != currentPurpose) {
-			if(currentPurpose != NULL)
-				currentPurpose->suspend();
+			if(currentPurpose != NULL) {
+				if(currentPurpose->keepInStack())
+					currentPurpose->suspend();
+				else {
+					purposeStack.pop();
+					delete currentPurpose;
+				}
+			}
 
 			purposeStack.push(purpose);
 			currentPurpose = purpose;
