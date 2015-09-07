@@ -399,7 +399,7 @@ __STATIC_API__ friso_lex_t get_lexicon_type_with_constant( fstring _key )
 		return __LEX_EN_WORDS__;
 	}
 
-	return -1;
+	return (friso_lex_t)-1;
 }
 
 /*

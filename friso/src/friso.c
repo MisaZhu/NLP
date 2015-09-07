@@ -580,7 +580,7 @@ __STATIC_API__ lex_entry_t next_basic_latin(
 	 * 	at the end of the sb cause we need to plus the tcount
 	 * 	to avoid the secondary check for work like 'c+', 'chenxin.'.
 	 */
-	_ctype = 0;
+	_ctype = (friso_enchar_t)0;
 	for ( ; sb->length > 0 
 			&& sb->buffer[ sb->length - 1 ] != '%' 
 			&& is_en_punctuation( 
@@ -604,7 +604,7 @@ __STATIC_API__ lex_entry_t next_basic_latin(
 		if ( _ctype == 0 )
 		{
 			tcount--;
-			_ctype = 1;
+			_ctype = (friso_enchar_t)1;
 		}
 	}
 
