@@ -1,4 +1,5 @@
 #include <fstream>
+#include <vector>
 
 #include "UTF8Reader.hh"
 #include "StreamByteReader.hh"
@@ -6,6 +7,8 @@
 extern "C" {
 #include "unqlite.h"
 }
+
+using namespace std;
 
 
 unsigned long registerWord(unqlite *db, const Byte* wp, unsigned int len) {
@@ -159,41 +162,71 @@ void split() {
 	wordPair[0] = 0;
 	wordPair[6] = 0;
 
+	vector<string> words;
+	string str;
 	while(true) {
-
 		const Byte* sw = reader.readSingleWord(len, ascii);
-		if(len == 0)
+		if(len == 0) {
 			break;
+		}
 
 		if(ascii) {
 			if(sw[0] == '\n') {
 				word[0] = 0;
 				wordPair[0] = 0;
 				std::cout << "\n";
+				break;
 			}
 			else {
 				std::cout << "[" << sw << "] ";
 			}
 		}
 		else {
+			unsigned long c1, c2;
 			unsigned long count = getWordCount(db, sw, 3);
-			std::cout << "[" << sw << ":" << (count * 1.0) / wpMax << "] ";
+			std::cout << "[" << sw << ":" << count << "] ";
 
 			if(word[0] == 0) {
 				memcpy(word, sw, 3);
+				str = string((const char*)sw, 3);
+				c1 = count;
 			}
 			else {
+				c2 = count;
+
 				memcpy(wordPair, word, 3);
 				memcpy(word, sw, 3);
 				memcpy(wordPair+3, sw, 3);
 
+
 				count = getWordCount(db, wordPair, 6);
-				std::cout << "[" << wordPair << ":" << (count * 10.0 / wpMax) << "] ";
+
+				std::cout << "[" << wordPair << ":" << count << "] ";
+
+				float r1 = (c1 + c2) ;
+				float r2 = count * 10;
+				if(r1 > r2) {//split
+					words.push_back(str);
+					str = string((const char*)sw, 3);
+				}
+				else {
+					str += string((const char*)sw, 3);
+				}
+
+				c1 = c2;
 			}
 		}
 	}
 
 	unqlite_close(db);
+
+	if(str.length() > 0)
+				words.push_back(str);
+			
+	int num = words.size();
+	for(int i=0; i<num; ++i) {
+		std::cout << words[i] << " ";
+	}
 }
 
 int main(int argc, char** argv) {
