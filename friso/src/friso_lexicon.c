@@ -284,7 +284,7 @@ FRISO_API void friso_dic_load(
 			}
 
 			//split the fstring with '/'.
-			string_split_reset( &sse, "/", _line); 
+			string_split_reset( &sse, (fstring)"/", _line); 
 			if ( string_split_next( &sse, _buffer ) == NULL ) continue;
 
 			//1. get the word.
@@ -329,7 +329,7 @@ FRISO_API void friso_dic_load(
 			sywords = NULL;
 			if ( config->add_syn && _syn != NULL ) 
 			{
-				string_split_reset( &sse, ",", _sbuffer );
+				string_split_reset( &sse, (fstring)",", _sbuffer );
 				sywords = new_array_list_with_opacity(5);
 				while ( string_split_next( &sse, _buffer ) != NULL ) 
 				{
@@ -428,7 +428,7 @@ FRISO_API void friso_dic_load_from_ifile(
 	//get the lexicon configruation file path
 	sb = new_string_buffer();
 	string_buffer_append( sb, _path );
-	string_buffer_append( sb, __FRISO_LEX_IFILE__ );
+	string_buffer_append( sb, (fstring)__FRISO_LEX_IFILE__ );
 	//printf("%s\n", sb->buffer);
 
 	if ( ( __stream = fopen( sb->buffer, "rb" ) ) != NULL ) 
@@ -456,7 +456,7 @@ FRISO_API void friso_dic_load_from_ifile(
 
 				//get the lexicon type
 				lex_t = get_lexicon_type_with_constant(__key__);
-				if ( lex_t == -1 ) continue; 
+				if ( lex_t == (friso_lex_t)-1 ) continue; 
 
 				//printf("key=%s, type=%d\n", __key__, lex_t );
 				while ( ( __line__ = file_get_line( __chars__, __stream ) ) != NULL ) 

@@ -1,7 +1,8 @@
 FRISO = ../../friso/src
-SRCS = test.cc ${FRISO}/friso*.c
+SPLIT = ../../FrisoSplit
+SRCS = test.cc ${FRISO}/friso*.c ${SPLIT}/*.cc
 
-CFLAGS = -I../../utils -I${FRISO}
+CFLAGS = -I../../utils -I${FRISO} -I${SPLIT}
 
 all:
 	g++ -g -o test ${CFLAGS} ${SRCS}

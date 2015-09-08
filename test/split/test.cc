@@ -1,40 +1,53 @@
-#include <fstream>
-#include <sstream>
+#include <iostream>
 
-#include "friso_API.h"
-#include "friso.h"
+#include "FrisoSplit.hh"
 
+extern "C" {
+//read a line from a command line.
+static fstring getLine( FILE *fp, fstring __dst ) 
+{
+	register int c;
+	register fstring cs;
+
+	cs = __dst;
+	while ( ( c = getc( fp ) ) != EOF ) {
+		if ( c == '\n' ) break;
+		*cs++ = c; 
+	}
+	*cs = '\0';
+
+	return ( c == EOF && cs == __dst ) ? NULL : __dst;
+}
+
+}
 
 
 using namespace std;
 
 int main(int argc, char** argv) {
-	friso_t friso;
-	friso_config_t config;
-	friso_task_t task;
+	char line[1024+1] = {0};
 
-
-	//initialize
-	friso = friso_new();
-	config = friso_new_config();
-	if ( friso_init_from_ifile(friso, config, argv[1]) != 1 ) {
-		friso_free_config(config);
-		friso_free(friso);
+	if(argc != 2) {
+		printf("Usage: test [friso init file]\n");
 		return 1;
 	}
 
-	//set the task.
-	task = friso_new_task();
+	FrisoSplit split;
+	split.loadConfig(argv[1]);
+	while ( 1 ) 
+	{
+		vector<WordInfo> words;
+		getLine( stdin, line );
 
-	friso_set_text( task, "我们是否有什么问题");
-	while ( ( config->next_token( friso, config, task ) ) != NULL ) {
-		printf("%s ", task->token->word );
+		split.split(line, words);
+
+		int sz = words.size();
+		for(int i=0; i<sz; ++i) {
+			std::cout << "[" + words[i].word + "] ";
+		}
+
+		std::cout << "\n";
 	}
-
-	friso_free_task( task );
-
-	friso_free_config(config);
-	friso_free(friso);
 
 	return 0;
 }
