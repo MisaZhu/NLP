@@ -1,7 +1,7 @@
 #ifndef PIE_NLP_HH
 #define PIE_NLP_HH
 
-#include <stack>
+#include <vector>
 #include "Purpose.hh"
 #include "Input.hh"
 #include "NLPReader.hh"
@@ -18,7 +18,7 @@ class PIENlp {
 	NLPReader* reader;
 	PurposeCreator* purposeCreator;
 
-	stack<Purpose*> purposeStack;
+	vector<Purpose*> purposes;
 
 	void terminate();
 
@@ -41,7 +41,7 @@ public:
 
 	void setReader(NLPReader* r); 
 
-	stack<Purpose*>* getPurposeStack();
+	vector<Purpose*>* getPurposes();
 
 };
 

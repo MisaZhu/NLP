@@ -10,9 +10,25 @@ using namespace std;
 
 class Purpose {
 protected:
-	string purpose;
+	size_t id;
 	
 public:
+	Purpose() {
+		id = 0;
+	}
+
+	Purpose(size_t id) {
+		setID(id);
+	}
+
+	void setID(size_t id) {
+		this->id = id;
+	}
+
+	size_t getID() {
+		return id;
+	}
+
 	virtual ~Purpose() { }
 
 	virtual bool checkInput(Input* input) = 0;

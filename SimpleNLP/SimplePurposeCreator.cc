@@ -69,7 +69,7 @@ JSONEntry* SimplePurposeCreator::getPurposeJSON(size_t id) {
 	return it->second;
 }
 
-Purpose* SimplePurposeCreator::newPurpose(PIENlp* nlp, Input* input) {
+size_t SimplePurposeCreator::getPurposeID(PIENlp* nlp, Input* input) {
 	vector<IDFreq> pIDs;
 	vector<string> words;
 
@@ -82,12 +82,22 @@ Purpose* SimplePurposeCreator::newPurpose(PIENlp* nlp, Input* input) {
 	if(pIDs.size() != 0)
 		id = pIDs[0].id;
 
+	return id;
+}
+
+Purpose* SimplePurposeCreator::newPurpose(PIENlp* nlp, size_t id) {
 	JSONEntry* purposeJson = getPurposeJSON(id);
 	if(purposeJson == NULL)
 		return NULL;
 
 	Purpose* ret = newPurpose(nlp, purposeJson); 
+	ret->setID(id);
 	return ret;
+}
+
+Purpose* SimplePurposeCreator::newPurpose(PIENlp* nlp, Input* input) {
+	size_t id = getPurposeID(nlp, input);
+	return newPurpose(nlp, id);
 }
 
 bool SimplePurposeCreator::loadConfig(const string& fname) {

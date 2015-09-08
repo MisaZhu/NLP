@@ -50,6 +50,10 @@ class SimplePurposeCreator : public PurposeCreator {
 public:
 	Purpose* newPurpose(PIENlp* nlp, Input* input);
 
+	Purpose* newPurpose(PIENlp* nlp, size_t id);
+
+	size_t getPurposeID(PIENlp* nlp, Input* input);
+
 	bool loadConfig(const string& fname);
 };
 

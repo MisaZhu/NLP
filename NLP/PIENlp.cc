@@ -11,8 +11,8 @@ void PIENlp::setReader(NLPReader* r) {
 }
 
 
-stack<Purpose*>* PIENlp::getPurposeStack() {
-	return &purposeStack;
+vector<Purpose*>* PIENlp::getPurposes() {
+	return &purposes;
 }
 
 void PIENlp::terminate() {
@@ -29,8 +29,19 @@ Purpose* PIENlp::purposeChanged(Input* input) {
 		return currentPurpose;
 	}
 
+
 	if(purposeCreator != NULL) {
-		Purpose *ret = purposeCreator->newPurpose(this, input);
+		Purpose* ret = NULL;
+		size_t id = purposeCreator->getPurposeID(this, input);
+		for(vector<Purpose*>::iterator it = purposes.begin(); it != purposes.end(); ++it) {
+			ret = *it;
+			if(ret != NULL && ret->getID() == id) {
+				purposes.erase(it);
+				return ret;
+			}
+		}	
+
+		ret = purposeCreator->newPurpose(this, id);
 		if(ret != NULL)
 			ret->checkInput(input);
 		return ret;
@@ -63,28 +74,30 @@ void PIENlp::run() {
 				if(currentPurpose->keepInStack())
 					currentPurpose->suspend();
 				else {
-					purposeStack.pop();
+					purposes.erase(purposes.end()-1);
 					delete currentPurpose;
 				}
 			}
 
-			purposeStack.push(purpose);
+			purposes.push_back(purpose);
 			currentPurpose = purpose;
 		}
 
 		if(currentPurpose != NULL) {
 			if(currentPurpose->ready()) {
 				input = currentPurpose->execute();
-				purposeStack.pop();
+				if(!currentPurpose->keepInStack()) {
+					purposes.erase(purposes.end()-1);
 
-				delete currentPurpose;
-				currentPurpose = NULL;
+					delete currentPurpose;
+					currentPurpose = NULL;
 
-				if(purposeStack.size() > 0)
-					currentPurpose = purposeStack.top();
+					if(purposes.size() > 0)
+						currentPurpose = *(purposes.end()-1);
 
-				if(currentPurpose != NULL)
-					currentPurpose->resume();
+					if(currentPurpose != NULL)
+						currentPurpose->resume();
+				}
 			}
 			else {
 				currentPurpose->moreInput();
