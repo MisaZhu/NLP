@@ -6,6 +6,6 @@
 
 #define null NULL
 #define Byte unsigned char
-
+#define UInt unsigned int
 
 #endif

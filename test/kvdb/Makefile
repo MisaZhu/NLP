@@ -1,8 +1,8 @@
-READER = ../../reader/Reader.cc ../../reader/UTF8Reader.cc ../../reader/StreamByteReader.cc
-UNQLITE = ../../unqlite/unqlite.c 
-SRCS = test.cc ${UNQLITE} ${READER}
+KVDB = ../../KVDB
+UNQLITE = ../../unqlite
 
-CFLAGS = -I../../unqlite -I../../utils -I../../reader
+SRCS = ${UNQLITE}/*.c ${KVDB}/*.cc test.cc
+CFLAGS = -I${UNQLITE} -I${KVDB} -I../../utils 
 
 all:
 	g++ -g -o test ${CFLAGS} ${SRCS}
