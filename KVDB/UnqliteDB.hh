@@ -14,11 +14,17 @@ public:
 
 	virtual bool close();
 	
-	virtual bool fetch(const void* key, const UInt keyLen, void* value, UInt* valueLen);
+	virtual bool fetch(const void* key, UInt keyLen, void* data, UInt* dataLen);
 
-	virtual bool store(const void* key, const UInt keyLen, const void* value, const UInt valueLen);
+	virtual bool store(const void* key, UInt keyLen, const void* data, UInt dataLen);
 
-	virtual bool remove(const void* key, const UInt keyLen);
+	virtual bool append(const void* key, UInt keyLen, const void* data, UInt dataLen);
+
+	virtual bool remove(const void* key, UInt keyLen);
+
+	virtual KVCursor* initCursor();
+
+	virtual bool releaseCursor(KVCursor* cursor); 
 };
 
 #endif
