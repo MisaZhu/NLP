@@ -28,7 +28,7 @@ bool UnqliteDB::close() {
 }
 	
 bool UnqliteDB::fetch(const void* key, UInt keyLen, void* data, UInt* dataLen) {
-	if(db == NULL || key == NULL || data == NULL)
+	if(db == NULL || key == NULL || dataLen == NULL)
 		return false;
 	unqlite_int64 len;
 	int r = unqlite_kv_fetch(db, (void*)key, keyLen, data, &len);

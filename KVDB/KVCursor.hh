@@ -3,7 +3,7 @@
 
 class KVCursor {
 public:
-	virtual ~KVCursor() { }
+	virtual ~KVCursor() = 0;
 
 	virtual bool key(void* key, UInt* keyLen) = 0;
 

@@ -14,7 +14,7 @@ bool UnqliteCursor::key(void* key, UInt* keyLen) {
 }
 
 bool UnqliteCursor::data(void* data, UInt* dataLen) {
-	if(cursor == NULL || data == NULL || dataLen == NULL)
+	if(cursor == NULL || dataLen == NULL)
 		return false;
 
 	unqlite_int64 l;

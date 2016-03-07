@@ -19,6 +19,13 @@ public:
 		return cursor;
 	}
 
+	virtual ~UnqliteCursor() {
+	}
+
+	UnqliteCursor() {
+		cursor = NULL;
+	}
+
 	virtual bool key(void* key, UInt* keyLen);
 
 	virtual bool data(void* data, UInt* dataLen);

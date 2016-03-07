@@ -10,6 +10,14 @@ extern "C" {
 class UnqliteDB : public KVDB {
 	unqlite *db;
 public:
+	UnqliteDB() {
+		db = NULL;
+	}
+
+	~UnqliteDB() {
+		close();
+	}
+
 	virtual bool open(const char* fname, bool wr = false);
 
 	virtual bool close();
