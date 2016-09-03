@@ -1,19 +1,22 @@
 #include "TinyJSON.hh"
+#include "UTF8StringReader.hh"
 #include <vector>
 #include <stdio.h>
 
 using namespace std;
 
-JSONEntry* TinyJSON::parse() {
-	JSONEntry* ret = new JSONEntry();
-	if(ret == NULL)
-		return NULL;
+bool TinyJSON::parse(JSONEntry& elm, const string& str) {
+	UTF8StringReader r;
+	r.setString(str);
 
-	if(readElm(*ret))
-		return ret;
+	TinyJSON tinyJSON;
+	tinyJSON.setReader(&r);
+	return tinyJSON.parse(elm);
+}
 
-	delete ret;
-	return NULL;
+bool TinyJSON::parse(JSONEntry& elm) {
+	elm.empty();
+	return readElm(elm);
 }
 
 bool TinyJSON::readElm(JSONEntry& elm, Byte state) {
@@ -26,7 +29,7 @@ bool TinyJSON::readElm(JSONEntry& elm, Byte state) {
 	const Byte* sw;
 	string name;
 
-	elm.type = JSONEntry::OBJ;
+	elm.setType(JSONEntry::OBJ);
 
 	while(true) {
 		sw = reader->readSingleWord(len, ascii, true);
@@ -46,28 +49,27 @@ bool TinyJSON::readElm(JSONEntry& elm, Byte state) {
 			JSONEntry *e = new JSONEntry();
 			if(e == NULL)
 				return false;
-			e->name = name;
 
 			if(sw[0] == '{') {
-				e->type = JSONEntry::OBJ;
+				e->setType(JSONEntry::OBJ);
 				if(!readElm(*e, NAME)) {
 					delete e;
 					return false;
 				}
 				//elm.object = e;
-				elm.children.insert(map < string, JSONEntry* >::value_type(name, e));
+				elm.add(name, e);
 			}
 			else if(sw[0] == '"') {
 				sw = reader->readTill(len, '"');
-				e->text = (const char*)sw;
+				e->setText((const char*)sw);
 
 				if(reader->read() != '"') {
 					delete e;
 					return false;
 				}
 
-				e->type = JSONEntry::TEXT;
-				elm.children.insert(map < string, JSONEntry* >::value_type(name, e));
+				e->setType(JSONEntry::TEXT);
+				elm.add(name, e);
 			}
 			else if(sw[0] == '[') {
 					while(true) {
@@ -77,7 +79,7 @@ bool TinyJSON::readElm(JSONEntry& elm, Byte state) {
 						delete e;
 						return false;
 					}
-					e->array.push_back(item);
+					e->getArray().push_back(item);
 
 					sw = reader->readSingleWord(len, ascii, true);
 					if(len == 0) {
@@ -93,8 +95,8 @@ bool TinyJSON::readElm(JSONEntry& elm, Byte state) {
 						return false;
 					}
 				}
-				e->type = JSONEntry::ARRAY;
-				elm.children.insert(map < string, JSONEntry* >::value_type(name, e));
+				e->setType(JSONEntry::ARRAY);
+				elm.add(name, e);
 			}
 			else {
 				delete e;
@@ -138,62 +140,3 @@ bool TinyJSON::readElm(JSONEntry& elm, Byte state) {
 	return true;
 }
 
-bool TinyJSON::dump(JSONEntry& elm, string& ret) {
-	ret = "";
-
-	if(elm.name.length() > 0)
-		ret = ret + "\"" + elm.name + "\":";
-
-
-	if(elm.type == JSONEntry::OBJ)
-		ret += "{";
-
-	if(elm.type == JSONEntry::TEXT) {
-		ret = ret + "\"" + elm.text + "\"";
-	}
-	else if(elm.type == JSONEntry::OBJ) {
-		string s;
-
-		if(elm.object != NULL) {
-			if(!dump(*elm.object, s))
-				return false;
-			else {
-				ret += s;
-			}
-		}
-	}
-	else if(elm.type == JSONEntry::ARRAY) {
-		ret += "[";
-
-		for(std::vector<JSONEntry*>::iterator it = elm.array.begin(); it != elm.array.end(); ++it) {
-			JSONEntry* e = *it;
-			if(e != NULL) {
-				string s = "";
-				if(!dump(*e, s))
-					return false;
-
-				if(it != elm.array.begin())
-					ret += ",";
-				ret += s;
-			}
-		}
-		ret += "]";
-	}
-
-	for(std::map<string, JSONEntry*>::iterator c = elm.children.begin(); c != elm.children.end(); ++c) {
-		JSONEntry* e = c->second;
-		if(e != NULL) {
-			string s = "";
-			if(!dump(*e, s))
-				return false;
-
-			if(c != elm.children.begin())
-				ret += ",";
-			ret += s;
-		}
-	}
-
-	if(elm.type == JSONEntry::OBJ)
-		ret += "}";
-	return true;
-}

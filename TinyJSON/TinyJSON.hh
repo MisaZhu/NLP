@@ -21,9 +21,9 @@ public:
 		reader = r;
 	}
 
-	JSONEntry* parse();
+	bool parse(JSONEntry& elm);
 
-	static bool dump(JSONEntry& elm, string & ret);
+	static bool parse(JSONEntry& elm, const string& str);
 };
 
 #endif
