@@ -1,0 +1,6 @@
+0|father|1|0|
+1|mather|1|0|
+2|son|1|0|
+3|daughter|1|0|
+4|sister|1|1|
+5|brother|1|1|
