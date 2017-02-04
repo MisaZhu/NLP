@@ -5,7 +5,9 @@ void MKNDict::add(const MKN& mkn) {
 			dictByLabel.insert(map<string, MKN>::value_type(mkn.label, mkn));
 
 	MKN* m = &res.first->second;
-	dictByID.insert(map<UInt, MKN*>::value_type(mkn.id, m));
+
+	if(m != NULL)
+		dictByID.insert(map<UInt, MKN*>::value_type(mkn.id, m));
 }
 
 bool MKNDict::get(const string& label, MKN& mkn) {
@@ -19,7 +21,8 @@ bool MKNDict::get(const string& label, MKN& mkn) {
 
 bool MKNDict::get(const UInt id, MKN& mkn) {
 	map<UInt, MKN*>::iterator it = dictByID.find(id);
-	if(it == dictByID.end())
+	if(it == dictByID.end() ||
+			it->second == NULL)
 		return false;
 
 	mkn = *(it->second);
